@@ -1,6 +1,6 @@
 # Base de datos RRHH con Docker (MySQL 8.4)
 
-Proyecto académico — Politécnico Grancolombiano
+Proyecto académico — Politécnico Grancolombiano <br>
 Módulo **Persistencia de Datos y Transaccionalidad** — Entrega 2: Modelo de Recursos Humanos.
 
 Esta carpeta levanta un servidor **MySQL 8.4** dentro de Docker y crea automáticamente:
