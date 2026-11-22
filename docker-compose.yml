@@ -1,8 +1,4 @@
-# Entorno MySQL 8.4 para el proyecto RRHH
-# Politécnico Grancolombiano - Persistencia de Datos y Transaccionalidad - Entrega 2
-#
-# Uso:  docker compose up -d      (levantar)
-#       docker compose down -v    (borrar todo y empezar de cero)
+# MySQL 8.4 para el proyecto RRHH (Persistencia de Datos - Entrega 2)
 
 name: rrhh-db
 
@@ -12,26 +8,18 @@ services:
     container_name: mysql-rrhh
     restart: unless-stopped
     environment:
-      # Todas las contraseñas se leen del archivo .env (que NO se sube al repositorio).
-      # Si falta alguna, docker compose se detiene con el mensaje indicado.
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Falta MYSQL_ROOT_PASSWORD en .env}
-      # La imagen oficial crea 'poli01'@'%' con esta clave ANTES de ejecutar init/.
-      # No se define MYSQL_DATABASE a propósito: así la imagen no le da permisos
-      # (los permisos exactos los otorga init/01_setup.sql).
+      # Crea 'poli01'@'%'; los permisos los otorga init/01_setup.sql
       MYSQL_USER: poli01
       MYSQL_PASSWORD: ${POLI01_PASSWORD:?Falta POLI01_PASSWORD en .env}
       TZ: America/Bogota
     ports:
-      # 127.0.0.1 = solo se puede conectar desde este mismo PC (no desde la red WiFi).
-      # Si 3306 está ocupado, cambie MYSQL_PORT en .env (ej. 3307).
-      - "127.0.0.1:${MYSQL_PORT:-3306}:3306"
+      - "127.0.0.1:${MYSQL_PORT:-3306}:3306"   # solo accesible desde este PC
     volumes:
-      # Volumen nombrado: aquí MySQL guarda los datos y sobreviven a reinicios del contenedor
       - mysql-data:/var/lib/mysql
-      # Scripts .sql que MySQL ejecuta en orden alfabético SOLO la primera vez (volumen vacío)
-      - ./init:/docker-entrypoint-initdb.d:ro
+      - ./init:/docker-entrypoint-initdb.d:ro  # solo se ejecuta con el volumen vacío
     healthcheck:
-      # Se usa 127.0.0.1 (TCP) para que no reporte "healthy" mientras corren los scripts de init
+      # Por TCP, para no marcar healthy mientras corre el init
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
       interval: 10s
       timeout: 5s
