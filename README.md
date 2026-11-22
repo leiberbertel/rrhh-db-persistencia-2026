@@ -95,14 +95,14 @@ Ambos deben mostrar un número de versión. Si dicen *no se reconoce como comand
 1. Descargue el repositorio. Con Git:
 
    ```powershell
-   git clone <URL-del-repositorio>
+   git clone https://github.com/leiberbertel/rrhh-db-persistencia-2026.git
    ```
 
-   O sin Git: en GitHub, botón verde **Code → Download ZIP** y descomprímalo.
+   O sin Git: en <https://github.com/leiberbertel/rrhh-db-persistencia-2026>, botón verde **Code → Download ZIP** y descomprímalo (la carpeta se llamará `rrhh-db-persistencia-2026-main`).
 2. Abra PowerShell **dentro de la carpeta descargada** (la que contiene `docker-compose.yml`):
 
    ```powershell
-   cd C:\ruta\a\la\carpeta
+   cd rrhh-db-persistencia-2026
    ```
 
    Truco: en el Explorador de archivos, abra la carpeta, escriba `powershell` en la barra de direcciones y presione Enter.
