@@ -6,7 +6,6 @@ SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 -- Modelo físico de la base de datos de Recursos Humanos (MySQL 8.4, InnoDB)
 -- Orden de creación: primero las tablas padre, luego las hijas.
 
-
 -- Tabla padre: países
 CREATE TABLE paises (
   pais_ID      INT AUTO_INCREMENT PRIMARY KEY,

@@ -1,17 +1,8 @@
--- =====================================================================
--- 01_setup.sql - Creación de la base de datos y del usuario de trabajo
+-- 01_setup.sql - Base de datos y permisos del usuario de trabajo
 -- Proyecto: Modelo de Recursos Humanos (Entrega 2)
--- Módulo:   Persistencia de Datos y Transaccionalidad - Politécnico Grancolombiano
---
--- Este script lo ejecuta automáticamente el contenedor de MySQL (como root)
--- la PRIMERA vez que arranca con el volumen vacío. Para volver a ejecutarlo:
---     docker compose down -v
---     docker compose up -d
--- =====================================================================
+-- Se ejecuta automáticamente solo la primera vez (volumen vacío).
 
--- Indica a MySQL que el texto de este archivo viene en UTF-8 (utf8mb4).
--- Sin esto, el cliente que ejecuta los scripts de init usa latin1 y las
--- tildes y eñes se guardan dañadas (ej. "Medellín" -> "MedellÃ­n").
+-- Indica que este archivo está en UTF-8 para que tildes y eñes se guarden bien.
 SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Crea la base de datos "rrhh" solo si no existe todavía.
@@ -22,18 +13,10 @@ CREATE DATABASE IF NOT EXISTS rrhh
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
 
--- Creación del usuario "poli01".
--- Para no dejar la contraseña escrita en este archivo (el repositorio es
--- público), el usuario NO se crea aquí: lo crea la imagen oficial de MySQL
--- antes de ejecutar este script, con las variables MYSQL_USER y
--- MYSQL_PASSWORD de docker-compose.yml (la clave sale de POLI01_PASSWORD en .env).
--- La sentencia que ejecuta la imagen es equivalente a:
---
---     CREATE USER 'poli01'@'%' IDENTIFIED BY '<POLI01_PASSWORD del .env>';
---
--- El host '%' significa que puede conectarse desde cualquier equipo; es
--- necesario porque las conexiones desde Windows (Workbench) llegan al
--- contenedor por la red de Docker y no como 'localhost'.
+-- El usuario 'poli01'@'%' lo crea la imagen de MySQL con la clave POLI01_PASSWORD
+-- del .env, para no dejarla escrita en un repositorio público. Equivale a:
+--     CREATE USER 'poli01'@'%' IDENTIFIED BY '...';
+-- '%' permite conexiones desde fuera del contenedor (por ejemplo, Workbench).
 
 -- Otorga a "poli01" solo los privilegios necesarios sobre la base "rrhh"
 -- (rrhh.* = todas las tablas de esa base y ninguna otra):
@@ -46,7 +29,3 @@ CREATE DATABASE IF NOT EXISTS rrhh
 GRANT CREATE, ALTER, DROP, INDEX, REFERENCES, SELECT, INSERT, UPDATE, DELETE
     ON rrhh.*
     TO 'poli01'@'%';
-
--- Recarga las tablas de privilegios para que los permisos apliquen de inmediato.
--- (Con GRANT ya es automático; se deja por claridad y buena práctica.)
-FLUSH PRIVILEGES;

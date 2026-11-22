@@ -6,7 +6,6 @@ SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 -- Carga de 5 registros de prueba por tabla, en orden: padres, hijas, nietas.
 -- Los IDs se escriben explícitos para que las llaves foráneas sean fáciles de seguir.
 
-
 -- 1. Países (padre)
 INSERT INTO paises (pais_ID, pais_nombre) VALUES
   (1, 'Colombia'),
